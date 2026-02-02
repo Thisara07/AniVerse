@@ -102,6 +102,9 @@ class CheckoutController extends Controller
             
             DB::commit();
             
+            // Dispatch Order Placed Event
+            \App\Events\OrderPlaced::dispatch($order);
+            
             // Clear cart
             Session::forget('cart');
             

@@ -82,17 +82,9 @@ class ProductFilter extends Component
     
     public function render()
     {
-        $query = Product::query();
-        
-        if ($this->search) {
-            $query->where('productName', 'LIKE', "%{$this->search}%");
-        }
-        
-        if ($this->category !== 'All') {
-            $query->where('category', $this->category);
-        }
-        
-        $this->products = $query->get(); // Assign to the public property
+        $this->products = Product::search($this->search)
+            ->category($this->category)
+            ->get();
         
         $cartItems = Session::get('cart', []);
         $cartCount = collect($cartItems)->sum();

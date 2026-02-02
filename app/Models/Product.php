@@ -33,4 +33,26 @@ class Product extends Model
     {
         $this->attributes['productName'] = $value;
     }
+
+    /**
+     * Scope a query to search products by name.
+     */
+    public function scopeSearch($query, $term)
+    {
+        if ($term) {
+            return $query->where('productName', 'LIKE', "%{$term}%");
+        }
+        return $query;
+    }
+
+    /**
+     * Scope a query to filter products by category.
+     */
+    public function scopeCategory($query, $category)
+    {
+        if ($category && $category !== 'All') {
+            return $query->where('category', $category);
+        }
+        return $query;
+    }
 }
