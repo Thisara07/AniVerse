@@ -39,7 +39,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          php artisan migrate --force
+          DB_CONNECTION=sqlite DB_DATABASE=:memory: php artisan migrate --force
           vendor/bin/phpunit
 
   deploy:
