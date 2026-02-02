@@ -67,6 +67,11 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Directory Permissions
+        run: |
+          mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache bootstrap/cache
+          chmod -R 777 storage bootstrap/cache
+
       - name: Install Composer Dependencies (Production)
         run: composer install --no-dev --optimize-autoloader --no-ansi --no-interaction --no-progress
 
