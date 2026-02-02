@@ -55,8 +55,28 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          coverage: none
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Composer Dependencies (Production)
+        run: composer install --no-dev --optimize-autoloader --no-ansi --no-interaction --no-progress
+
+      - name: Install NPM and Build Assets
+        run: |
+          npm install
+          npm run build
+
       - name: Create ZIP bundle
-        run: zip -r deploy_package.zip . -x "*.git*" "node_modules/*" "tests/*" "storage/*"
+        run: zip -r deploy_package.zip . -x "*.git*" "node_modules/*" "tests/*" "storage/framework/cache/*" "storage/framework/sessions/*" "storage/framework/views/*"
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v22
