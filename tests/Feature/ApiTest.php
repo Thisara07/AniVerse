@@ -33,7 +33,7 @@ class ApiTest extends TestCase
                  ]);
 
         $this->assertDatabaseHas('users', [
-            'email' => 'apitest@example.com',
+            'email' => $email,
             'fullName' => 'API Test User'
         ]);
     }

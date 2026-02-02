@@ -26,6 +26,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'name',
         'fullName',
         'email',
         'password',
@@ -54,6 +55,7 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        'name',
     ];
 
     /**
