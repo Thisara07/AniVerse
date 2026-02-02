@@ -53,4 +53,30 @@ if (file_exists('../vendor/autoload.php')) {
     echo "Autoload file NOT FOUND at ../vendor/autoload.php\n";
 }
 
+echo "\n=== Database Connection Test ===\n";
+$host = getenv('DB_HOST');
+$db   = getenv('DB_DATABASE');
+$user = getenv('DB_USERNAME');
+$pass = getenv('DB_PASSWORD');
+$port = getenv('DB_PORT') ?: '3306';
+
+if (!$host || !$db) {
+    echo "DB Configuration missing from environment.\n";
+} else {
+    echo "Attempting connection to $host:$port...\n";
+    try {
+        $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
+        $options = [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_TIMEOUT            => 5, // 5 second timeout
+        ];
+        $pdo = new PDO($dsn, $user, $pass, $options);
+        echo "SUCCESS: Connected to database!\n";
+    } catch (\PDOException $e) {
+        echo "FAILED: " . $e->getMessage() . "\n";
+        echo "HINT: If this times out, check your RDS Security Group Inbound Rules.\n";
+    }
+}
+
 echo "\n=== End of Diagnostics ===\n";
