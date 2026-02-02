@@ -38,8 +38,12 @@ jobs:
           npm run build
 
       - name: Run Tests
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
         run: |
-          DB_CONNECTION=sqlite DB_DATABASE=:memory: php artisan migrate --force
+          touch database/database.sqlite
+          php artisan migrate --force
           vendor/bin/phpunit
 
   deploy:
