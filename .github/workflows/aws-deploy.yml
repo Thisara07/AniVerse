@@ -32,9 +32,14 @@ jobs:
       - name: Generate Key
         run: php artisan key:generate
 
+      - name: Install NPM Dependencies
+        run: |
+          npm install
+          npm run build
+
       - name: Run Tests
         run: |
-          touch database/database.sqlite
+          php artisan migrate --force
           vendor/bin/phpunit
 
   deploy:
