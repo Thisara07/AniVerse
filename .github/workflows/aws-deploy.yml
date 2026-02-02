@@ -81,7 +81,9 @@ jobs:
           npm run build
 
       - name: Create ZIP bundle
-        run: zip -r deploy_package.zip . -x "*.git*" "node_modules/*" "tests/*" "storage/framework/cache/*" "storage/framework/sessions/*" "storage/framework/views/*" "storage/logs/*" "bootstrap/cache/*"
+        run: |
+          chmod +x .platform/hooks/**/*.sh
+          zip -r deploy_package.zip . -x "*.git*" "node_modules/*" "tests/*" "storage/framework/cache/*" "storage/framework/sessions/*" "storage/framework/views/*" "storage/logs/*" "bootstrap/cache/*"
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v22
