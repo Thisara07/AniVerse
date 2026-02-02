@@ -115,7 +115,7 @@ class ApiTest extends TestCase
                              'image' => 'test.jpg'
                          ]);
 
-        $response->assertStatus(200)
+        $response->assertStatus(201)
                  ->assertJsonStructure([
                      'data' => [
                          'id',
