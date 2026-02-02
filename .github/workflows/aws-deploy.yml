@@ -43,8 +43,9 @@ jobs:
           DB_DATABASE: database/database.sqlite
         run: |
           touch database/database.sqlite
-          php artisan migrate --force
+          php artisan migrate --force --env=testing
           vendor/bin/phpunit
+        # continue-on-error: true # Uncomment this only if you must deploy immediately despite test failures
 
   deploy:
     runs-on: ubuntu-latest
